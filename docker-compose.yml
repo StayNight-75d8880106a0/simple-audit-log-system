@@ -1,0 +1,47 @@
+services:
+  postgresql:
+    image: postgres:17.6
+    container_name: crime_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 11s
+      timeout: 6s
+      retries: 7
+
+  simple_audit_log_system:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: simple_audit_log_system
+    container_name: simple_audit_log_system
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    environment:
+      - APP_PORT=:${APP_PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_SSLMODE=${DB_SSLMODE}
+      - DB_TIMEZONE=${DB_TIMEZONE}
+    networks:
+      - app_network
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+networks:
+  app_network:
+    driver: bridge
