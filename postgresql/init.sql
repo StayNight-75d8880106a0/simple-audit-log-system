@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE criminal_fugitives (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name VARCHAR(150) NOT NULL,
     crime_description TEXT,
     danger_level INTEGER NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE criminal_fugitives (
 );
 
 CREATE TABLE audit_logs (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     entity_name VARCHAR(100) NOT NULL,
     entity_id UUID NOT NULL,
     action VARCHAR(20) NOT NULL,

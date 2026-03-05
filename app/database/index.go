@@ -38,9 +38,7 @@ func Connect() *DB_Cluster {
 
 	fmt.Println("=========================================")
 	fmt.Println("🚀 Database Cluster Status:")
-	fmt.Println("✅ Master Connection: OK!")
-	fmt.Println("✅ Slave 1 Connection: OK!")
-	fmt.Println("✅ Slave 2 Connection: OK!")
+	fmt.Println("✅ Database Connection: OK!")
 	fmt.Println("✅ Auto Migration: Success!")
 	fmt.Println("=========================================")
 

@@ -9,6 +9,7 @@ import (
 type CriminalFugitives struct {
 	ID                  *string        `json:"id" gorm:"column:id;primaryKey;type:uuid;default:gen_random_uuid()"`
 	Full_Name           *string        `json:"full_name"`
+	Crime_Description   *string        `json:"crime_description"`
 	Danger_Level        *int           `json:"danger_level"`
 	Last_Known_Location *string        `json:"last_known_location"`
 	Is_Captured         *bool          `json:"is_captured"`
